@@ -1,3 +1,4 @@
+import 'package:bookstore/signup_screen.dart';
 import 'package:bookstore/utils/colors__util.dart';
 import 'package:bookstore/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,9 +46,32 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           reusableTextField(
               "Enter Password", Icons.lock_outline, true, _passwordText),
-          userButtons(context, true, () {})
+          userButtons(context, true, () {}),
+          signUpOption()
         ]),
       )),
     ));
+  }
+
+  Row signUpOption() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          "Don't have Account?",
+          style: TextStyle(color: Colors.white70),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SignUpScreen()));
+          },
+          child: const Text(
+            " Sign Up",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    );
   }
 }
