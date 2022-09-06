@@ -1,10 +1,13 @@
 import 'package:bookstore/signup_screen.dart';
 import 'package:bookstore/utils/colors__util.dart';
 import 'package:bookstore/widgets/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+
+import 'home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -46,7 +49,17 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           reusableTextField(
               "Enter Password", Icons.lock_outline, true, _passwordText),
-          userButtons(context, true, () {}),
+          userButtons(context, true, () {
+            FirebaseAuth.instance
+                .signInWithEmailAndPassword(
+                    email: _emailText.text, password: _passwordText.text)
+                .then((value) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
+            }).onError((error, stackTrace) {
+              print("Error ${error.toString()}");
+            });
+          }),
           signUpOption()
         ]),
       )),

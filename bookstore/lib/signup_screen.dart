@@ -1,5 +1,6 @@
 import 'package:bookstore/utils/colors__util.dart';
 import 'package:bookstore/widgets/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -61,8 +62,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 20,
                 ),
                 userButtons(context, false, () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                  FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                          email: _emailText.text, password: _passwordText.text)
+                      .then((value) {
+                    print("User Created Sussefully");
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  }).onError((error, stackTrace) {
+                    print("Error ${error.toString()}");
+                  });
                 })
               ]),
             ),
